@@ -4,35 +4,77 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static float TimeLeft = 312f;
-    public static float CurrentMagic = 0;
-    public static float MaxMagic = 3000f;
+    public float timeLeft = 312f;
+    public float gameRoundTime;
+    public float currentMagic = 0;
+    public float maxMagic = 3000f;
+    public int crystalAmount = 0;
+    public List<GameObject> placedBuildings;
+    public bool gameHasEnded = false;
+    public bool gameIsPlaying = false;
 
-    public GameObject endGameUI;
-
-    public static bool GameHasEnded;
+    private static GameManager _instance;
+    public static GameManager Instance { get { return _instance; } }
 
     private void Awake()
     {
-        CurrentMagic = 0;
-        GameHasEnded = false;
+        _instance = this;
+        currentMagic = 0;
+        gameRoundTime = timeLeft;
     }
 
-    public static void IncreaseMagic(int amount)
+    public void IncreaseCrystals(int amount)
     {
-        if (GameHasEnded)
+        crystalAmount += amount;
+    }
+
+    public void DecreaseCrystals(int amount)
+    {
+        crystalAmount -= amount;
+    }
+
+    public void IncreaseMagic(int amount)
+    {
+        if (gameHasEnded)
             return;
 
-        CurrentMagic += amount;
+        currentMagic += amount;
+    }
+
+    public void StartGame()
+    {
+        timeLeft = gameRoundTime;
+        gameIsPlaying = true;
+        UIManager.Instance.ToggleStartUI(false);
+    }
+
+    public void AddBuilding(GameObject building)
+    {
+        if(!placedBuildings.Contains(building))
+        {
+            placedBuildings.Add(building);
+        }
     }
 
     private void Update()
     {
-        TimeLeft -= Time.deltaTime;
-
-        if(!GameHasEnded)
+        if(gameIsPlaying)
         {
-            if (CurrentMagic != MaxMagic)
+            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0f)
+            {
+                timeLeft = 0f;
+                if (!gameHasEnded)
+                {
+                    EndGame();
+                }
+            }
+        }
+
+
+        if(!gameHasEnded)
+        {
+            if (currentMagic != maxMagic)
             {
                 IncreaseMagic(10);
             }
@@ -43,21 +85,12 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
-        if (TimeLeft <= 0f)
-        {
-            TimeLeft = 0f;
-            if (!GameHasEnded)
-            {
-                EndGame();
-            }
-        }
     }
 
-    void EndGame()
+    private void EndGame()
     {
-        GameHasEnded = true;
-        endGameUI.SetActive(true);
+        gameHasEnded = true;
+        UIManager.Instance.ToggleEndUI(true);
     }
 
 }

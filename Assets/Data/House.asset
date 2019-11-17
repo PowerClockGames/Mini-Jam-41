@@ -12,22 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5d30d98f4215e4cbab95bff7fa804a, type: 3}
   m_Name: House
   m_EditorClassIdentifier: 
-  buildingImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  crystalsPerMinute: 0
-  constructionImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  constructionTime: 10
-  constructionCost: 0
+  buildingName: House
+  constructionImage: {fileID: 21300000, guid: 2d4f8d8db8ade124f802f635b99db59d, type: 3}
   constructionCompletedSFX: {fileID: 0}
-  upgrades:
-  - upgradeCost: 0
-    upgradeLevel: 0
-    upgradeTime: 0
-    upgradeSprite: {fileID: 0}
-  - upgradeCost: 0
-    upgradeLevel: 0
-    upgradeTime: 0
-    upgradeSprite: {fileID: 0}
-  - upgradeCost: 0
-    upgradeLevel: 0
-    upgradeTime: 0
-    upgradeSprite: {fileID: 0}
+  levels:
+  - levelCost: 0
+    crystalsPerMinute: 4
+    levelConstructionTime: 5
+    levelSprite: {fileID: 21300000, guid: 3de0e68b3bb2fcf45bddd05e671373d0, type: 3}
+  - levelCost: 10
+    crystalsPerMinute: 10
+    levelConstructionTime: 10
+    levelSprite: {fileID: 21300000, guid: 70141d51621e24facbca9196bbde84b4, type: 3}
+  - levelCost: 30
+    crystalsPerMinute: 20
+    levelConstructionTime: 20
+    levelSprite: {fileID: 21300000, guid: d9b66b6e9d6df154ba4b8392489a414d, type: 3}

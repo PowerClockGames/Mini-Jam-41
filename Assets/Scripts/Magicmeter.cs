@@ -8,11 +8,11 @@ public class Magicmeter : MonoBehaviour
 {
     public TextMeshProUGUI text;
 
-    private Slider progressSlider;
+    private Slider _progressSlider;
 
     private void Awake()
     {
-        this.progressSlider = gameObject.GetComponent<Slider>();
+        this._progressSlider = gameObject.GetComponent<Slider>();
     }
 
     // Update is called once per frame
@@ -22,7 +22,7 @@ public class Magicmeter : MonoBehaviour
         //string seconds = (GameManager.TimeLeft % 60).ToString("00");
         //text.text = minutes + ":" + seconds;
 
-        float magicPercentage = GameManager.CurrentMagic / GameManager.MaxMagic;
-        progressSlider.value = magicPercentage;
+        float magicPercentage = GameManager.Instance.currentMagic / GameManager.Instance.maxMagic;
+        _progressSlider.value = magicPercentage;
     }
 }

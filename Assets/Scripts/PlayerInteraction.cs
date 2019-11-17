@@ -7,34 +7,36 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Tilemap tilemap;
     public Grid grid;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public SortingLayer rayCastLayer;
+    public Bounds gridBounds = new Bounds(Vector3.zero, Vector3.one * 10);
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetMouseButtonDown(0))
-        {
+        {        
             Vector3 pos = Input.mousePosition;
             Vector3 mousePoint = Camera.main.ScreenToWorldPoint(pos);
+            Vector3Int cellPos = tilemap.WorldToCell(mousePoint);
+            Vector3 cellCenter = grid.GetCellCenterWorld(cellPos);
 
-            if (tilemap != null)
+            if (GameManager.Instance.gameIsPlaying && IsInBounds(mousePoint, gridBounds))
             {
-                Vector3Int tilePos = tilemap.WorldToCell(mousePoint);
-                Debug.Log(tilePos);
+                RaycastHit2D hit = Physics2D.Raycast(mousePoint, Vector2.zero);
+
+                Debug.Log("Clicked Inside grid");
+                if (hit.collider != null && hit.transform.GetComponent<Building>() == null)
+                {
+                    Builder.Instance.PlaceBuilding(null, cellCenter);
+                }
             }
-
-            RaycastHit2D hit = Physics2D.Raycast(mousePoint, Vector2.zero);
-
-            if (hit.collider != null && hit.transform.GetComponent<Building>() == null)
-            {
-                Builder.Instance.PlaceBuilding(null, mousePoint);
-                Debug.Log("Target Position: " + hit.collider.gameObject.transform.position);
-            }
-
         }
+    }
+
+    private bool IsInBounds(Vector3 position, Bounds bounds)
+    {
+        return position.x > bounds.min.x  &&
+                position.x < bounds.max.x &&
+                position.x > bounds.min.y &&
+                position.y < bounds.max.y;
     }
 }

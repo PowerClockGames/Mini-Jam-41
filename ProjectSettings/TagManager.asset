@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Bounds
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Trees Background
+    uniqueID: 2730002151
+    locked: 0
+  - name: Trees Foreground
+    uniqueID: 1808371895
+    locked: 0
+  - name: Building
+    uniqueID: 4280676853
+    locked: 0
+  - name: UI
+    uniqueID: 3201815201
     locked: 0
