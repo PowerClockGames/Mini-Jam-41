@@ -7,7 +7,7 @@ public class Vendor : MonoBehaviour
     public CanvasGroup popupUI;
     public VendorUIManager vendorUI;
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
         if(GameManager.Instance.selectedBuilding == null)
         {

@@ -6,14 +6,13 @@ public class GameManager : MonoBehaviour
 {
     public float timeLeft = 312f;
     public float gameRoundTime;
-    public float currentMagic = 0;
-    public float maxMagic = 3000f;
     public int crystalAmount = 0;
     public Building selectedBuilding;
     public List<GameObject> placedBuildings;
     public bool gameHasEnded = false;
     public bool gameIsPlaying = false;
     public bool canBuildHere = false;
+    public bool isHouseOnFire = false;
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
@@ -21,7 +20,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        currentMagic = 0;
         gameRoundTime = timeLeft;
     }
 
@@ -33,14 +31,6 @@ public class GameManager : MonoBehaviour
     public void DecreaseCrystals(int amount)
     {
         crystalAmount -= amount;
-    }
-
-    public void IncreaseMagic(int amount)
-    {
-        if (gameHasEnded)
-            return;
-
-        currentMagic += amount;
     }
 
     public void StartGame()
@@ -72,21 +62,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-
-        if(!gameHasEnded)
-        {
-            if (currentMagic != maxMagic)
-            {
-                IncreaseMagic(10);
-            }
-            else
-            {
-                Debug.Log("max Magic reached!");
-                EndGame();
-            }
-        }
-
     }
 
     private void EndGame()

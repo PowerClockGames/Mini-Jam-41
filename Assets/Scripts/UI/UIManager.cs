@@ -6,8 +6,10 @@ using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
+    public TMP_Text timerText;
     public TMP_Text crystalText;
     public Popup popup;
+    public GameObject gameOverlayUI;
     public GameObject startUI;
     public GameObject endGameUI;
     public GameObject hoverBuildingPrefab;
@@ -26,12 +28,28 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         ToggleStartUI(true);
+        ToggleGameOverlayUI(false);
+        ToggleEndUI(false);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         crystalText.text = GameManager.Instance.crystalAmount.ToString();
+        UpdateTimer();
+    }
+
+    private void UpdateTimer()
+    {
+        float timeLeft = GameManager.Instance.timeLeft;
+        string minutes = Mathf.Floor(timeLeft / 60).ToString("00");
+        string seconds = (timeLeft % 60).ToString("00");
+        timerText.text = minutes + ":" + seconds;
+    }
+
+    public void ToggleGameOverlayUI(bool visible)
+    {
+        gameOverlayUI.SetActive(visible);
     }
 
     public void ToggleStartUI(bool visible)

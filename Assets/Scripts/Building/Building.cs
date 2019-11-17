@@ -220,8 +220,9 @@ public class Building : MonoBehaviour
     {
         _isGenerating = false;
         buildingState = BuildingState.Damaged;
+        GameManager.Instance.isHouseOnFire = true;
 
-        if(_fireParticlePrefab != null)
+        if (_fireParticlePrefab != null)
         {
             _fireParticles = Instantiate(_fireParticlePrefab, gameObject.transform.position, Quaternion.identity);
         }
