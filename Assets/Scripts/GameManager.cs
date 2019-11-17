@@ -9,9 +9,11 @@ public class GameManager : MonoBehaviour
     public float currentMagic = 0;
     public float maxMagic = 3000f;
     public int crystalAmount = 0;
+    public Building selectedBuilding;
     public List<GameObject> placedBuildings;
     public bool gameHasEnded = false;
     public bool gameIsPlaying = false;
+    public bool canBuildHere = false;
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }

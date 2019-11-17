@@ -5,19 +5,29 @@ using UnityEngine.UI;
 
 public class Building : MonoBehaviour
 {
+    [Header("General")]
     public BuildingAsset asset;
     public GameObject crystalIcon;
     public BuildingPopBox buildingPopBox;
+
+    [Header("Collider")]
+    public BoxCollider2D buildingCollider;
+    public BoxCollider2D buildingTileCollider;
+
+    [Header("State")]
     public BuildingState buildingState;
 
     private SpriteRenderer _buildingSprite;
     private Level _currentLevelAsset;
+    private GameObject _ExplosionParticlePrefab;
+    private GameObject _ExtinguishParticlePrefab;
     private GameObject _fireParticlePrefab;
     private GameObject _fireParticles;
     private HealthBar _buildingBar;
 
     private Vector3 _crystalTarget;
     private Vector3 _crystalPosition;
+    private BoxCollider2D _buildingColliderDefault;
 
     private int _currentLevel = 0;
     private int _clickCount = 0;
@@ -27,51 +37,84 @@ public class Building : MonoBehaviour
 
     void Awake()
     {
-        _buildingSprite = gameObject.GetComponent<SpriteRenderer>();
+        _buildingSprite = GetComponent<SpriteRenderer>();
         _crystalTarget = new Vector3(11, 6.5f);
         _crystalPosition = crystalIcon.transform.position;
         _currentLevelAsset = asset.levels[_currentLevel];
-        _fireParticlePrefab = Resources.Load<GameObject>("Fire");
+        _fireParticlePrefab = Resources.Load<GameObject>("FireParticle");
+        _ExtinguishParticlePrefab = Resources.Load<GameObject>("ExtinguishParticle");
+        _ExplosionParticlePrefab = Resources.Load<GameObject>("ExplosionParticle");
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-        switch(buildingState)
+        if(buildingState == BuildingState.Constructing)
         {
-            case BuildingState.Constructing:
-                Construct();
-                break;
+            Construct();
         }
+
+        if(GameManager.Instance.selectedBuilding)
+        {
+            ToggleColliders(true);
+        } else
+        {
+            ToggleColliders(false);
+        }
+
+    }
+
+    public void ToggleColliders(bool isTile)
+    {
+        buildingCollider.enabled = !isTile;
+        buildingTileCollider.enabled = isTile;
     }
 
     void OnMouseDown()
     {
-        Debug.Log("clicked on building");
-        if(buildingState == BuildingState.Built)
+        if(GameManager.Instance.selectedBuilding == null)
         {
-            buildingPopBox.Show();
-        }
-
-        if(buildingState == BuildingState.Damaged)
-        {
-            Debug.Log(_clickCount);
-            if (_clickCount == 4)
+            Debug.Log("clicked on building");
+            switch (buildingState)
             {
-                _clickCount = 0;
-                Destroy(gameObject);
-                Destroy(_fireParticles);
-            } else
-            {
-                _clickCount++;
+                case BuildingState.Built:
+                    buildingPopBox.Show();
+                    break;
+                case BuildingState.Damaged:
+                    ExtinguishFire();
+                    break;
             }
+        }
+    }
+
+    private void ExtinguishFire()
+    {
+        if (_clickCount == 4)
+        {
+            _clickCount = 0;
+
+            if(_ExplosionParticlePrefab != null)
+            {
+                Instantiate(_ExplosionParticlePrefab, gameObject.transform.position, Quaternion.identity);
+            }
+
+            Destroy(gameObject);
+            Destroy(_fireParticles);
+        }
+        else
+        {
+
+            if (_ExtinguishParticlePrefab != null)
+            {
+                Instantiate(_ExtinguishParticlePrefab, gameObject.transform.position, Quaternion.identity);
+            }
+            CameraShake.Shake(0.25f, 0.3f);
+            _clickCount++;
         }
     }
 
     private void OnMouseExit()
     {
-        if(buildingPopBox.isOpen)
+        if (buildingPopBox.isOpen)
         {
             buildingPopBox.Hide();
         }
@@ -79,7 +122,8 @@ public class Building : MonoBehaviour
 
     public void IncreaseBuildingLevel()
     {
-        if(_currentLevel <= asset.levels.Length)
+        Debug.Log("Upgradeee =>" + _currentLevel);
+        if(_currentLevel < asset.levels.Length)
         {
             Level upgradeAsset = asset.levels[_currentLevel + 1];
             if (upgradeAsset != null)
@@ -192,6 +236,11 @@ public class Building : MonoBehaviour
     public bool IsUnderAttack()
     {
         return buildingState == BuildingState.UnderAttack;
+    }
+
+    public bool IsDamaged()
+    {
+        return buildingState == BuildingState.Damaged;
     }
 }
 

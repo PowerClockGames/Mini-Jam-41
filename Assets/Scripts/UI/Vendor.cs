@@ -9,7 +9,10 @@ public class Vendor : MonoBehaviour
 
     void OnMouseDown()
     {
-        vendorUI.Open();
+        if(GameManager.Instance.selectedBuilding == null)
+        {
+            vendorUI.Open();
+        }
     }
 
     private void OnMouseEnter()

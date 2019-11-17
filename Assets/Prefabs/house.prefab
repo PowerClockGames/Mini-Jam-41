@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.11, y: 0.96}
-  m_SizeDelta: {x: 0.791, y: 0.988}
+  m_AnchoredPosition: {x: -0.016, y: 0.076}
+  m_SizeDelta: {x: 0.1955, y: 0.2443}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8986606666083973000
 CanvasRenderer:
@@ -158,8 +158,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3720188950107633605}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.08, y: -0.01, z: 0}
-  m_LocalScale: {x: 3.6608522, y: 3.6608522, z: 3.6608522}
+  m_LocalPosition: {x: 0.006, y: -0.01, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7005678380960911885}
   m_RootOrder: 0
@@ -199,9 +199,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -14290443
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: -7773183333426011814, guid: 35275c404ad36664db8185ebb18bea35,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -308,8 +308,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 0.33
-  m_fontSizeBase: 0.33
+  m_fontSize: 0.09
+  m_fontSizeBase: 0.09
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0.003998275}
+  m_margin: {x: 0.22119245, y: 0.25742212, z: 0.2345401, w: 0.26332724}
   m_textInfo:
     textComponent: {fileID: 568287737930036757}
     characterCount: 2
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 0.33
+  m_fontSize: 0.11
   m_fontSizeBase: 0.33
   m_fontWeight: 400
   m_enableAutoSizing: 0
@@ -504,7 +504,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -0.06403303, z: 0, w: -0.048028592}
+  m_margin: {x: 0.2631428, y: 0.22389847, z: 0.23644713, w: 0.23963594}
   m_textInfo:
     textComponent: {fileID: 2985748514633765709}
     characterCount: 1
@@ -541,6 +541,7 @@ GameObject:
   - component: {fileID: 7005678380960911885}
   - component: {fileID: 7005678380960911874}
   - component: {fileID: 7005678380960911884}
+  - component: {fileID: 1967188078946040807}
   - component: {fileID: 7005678380960911887}
   m_Layer: 0
   m_Name: house
@@ -558,7 +559,7 @@ Transform:
   m_GameObject: {fileID: 7005678380960911875}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.8081, y: 1.1019, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.198}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1074568344959278587}
   - {fileID: 8793931333678776338}
@@ -602,8 +603,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -14290443
   m_SortingLayer: 3
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3de0e68b3bb2fcf45bddd05e671373d0, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: d7c940d780d215d469c4855fab8f4379, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -621,24 +622,50 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7005678380960911875}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.5112591, y: 1.2891035}
+  m_Offset: {x: 0.6666544, y: 0.46466744}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 5.12}
+    oldSize: {x: 0.875, y: 1.125}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 8.333195, y: 7.778427}
+  m_Size: {x: 2.4110546, y: 2.0935059}
+  m_EdgeRadius: 0
+--- !u!61 &1967188078946040807
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7005678380960911875}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.02243638, y: -0.05609095}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.875, y: 1.125}
+    newSize: {x: 0.16, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.99466085, y: 1.0128181}
   m_EdgeRadius: 0
 --- !u!114 &7005678380960911887
 MonoBehaviour:
@@ -655,6 +682,8 @@ MonoBehaviour:
   asset: {fileID: 11400000, guid: d2692c43fffb657408939e783bb3b2d3, type: 2}
   crystalIcon: {fileID: 3720188950107633605}
   buildingPopBox: {fileID: 2035047097726888355}
+  buildingCollider: {fileID: 7005678380960911884}
+  buildingTileCollider: {fileID: 1967188078946040807}
   buildingState: 0
 --- !u!1 &8554042752396413222
 GameObject:
@@ -692,8 +721,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.07, y: -0.14}
-  m_SizeDelta: {x: 0.791, y: 0.988}
+  m_AnchoredPosition: {x: 0.245, y: -0.188}
+  m_SizeDelta: {x: 0.1651, y: 0.2515}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2948765494019009621
 CanvasRenderer:
@@ -828,7 +857,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.554, y: 0.861}
+  m_AnchoredPosition: {x: 0.049, y: 0.985}
   m_SizeDelta: {x: 4.998, y: 3.44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1752993981813333593

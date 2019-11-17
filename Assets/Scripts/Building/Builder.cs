@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Builder : MonoBehaviour
 {
+    public GameObject baseBuidlingPrefab;
     public Building[] buildings;
 
     private static Builder _instance;
@@ -17,7 +18,7 @@ public class Builder : MonoBehaviour
     public void PlaceBuilding(BuildingAsset building, Vector3 position)
     {
         position = new Vector3(position.x, position.y, 0);
-        GameObject newBuilding = Instantiate(buildings[0].gameObject, position, Quaternion.identity);
+        GameObject newBuilding = Instantiate(baseBuidlingPrefab, position, Quaternion.identity);
         Building buildingComp = newBuilding.GetComponent<Building>();
         buildingComp.StartConstruction(buildingComp.asset.levels[0]);
     }

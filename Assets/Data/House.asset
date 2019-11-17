@@ -19,7 +19,7 @@ MonoBehaviour:
   - levelCost: 0
     crystalsPerMinute: 4
     levelConstructionTime: 5
-    levelSprite: {fileID: 21300000, guid: 3de0e68b3bb2fcf45bddd05e671373d0, type: 3}
+    levelSprite: {fileID: 21300000, guid: d7c940d780d215d469c4855fab8f4379, type: 3}
   - levelCost: 10
     crystalsPerMinute: 10
     levelConstructionTime: 10

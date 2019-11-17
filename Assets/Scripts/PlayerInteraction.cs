@@ -12,24 +12,68 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
-        {        
-            Vector3 pos = Input.mousePosition;
-            Vector3 mousePoint = Camera.main.ScreenToWorldPoint(pos);
-            Vector3Int cellPos = tilemap.WorldToCell(mousePoint);
-            Vector3 cellCenter = grid.GetCellCenterWorld(cellPos);
+        if(!UIManager.Instance.isInMenu && GameManager.Instance.gameIsPlaying)
+        {
+            HandleMouseClick();
+            HandleMouseOver();
+        }
+    }
 
-            if (GameManager.Instance.gameIsPlaying && IsInBounds(mousePoint, gridBounds))
+    private void HandleMouseOver()
+    {
+        if(GameManager.Instance.selectedBuilding != null)
+        {
+            GameManager.Instance.canBuildHere = false;
+
+            CheckBoundsAndCast((mousePoint) =>
             {
-                RaycastHit2D hit = Physics2D.Raycast(mousePoint, Vector2.zero);
+                GameManager.Instance.canBuildHere = true;
+            });
+        }
+    }
 
-                Debug.Log("Clicked Inside grid");
-                if (hit.collider != null && hit.transform.GetComponent<Building>() == null)
-                {
-                    Builder.Instance.PlaceBuilding(null, cellCenter);
-                }
+    private void HandleMouseClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            CheckBoundsAndCast((mousePoint) =>
+            {
+                Vector3Int cellPos = tilemap.WorldToCell(mousePoint);
+                Vector3 cellCenter = grid.GetCellCenterWorld(cellPos);
+                PlaceBuildingIfSelected(cellCenter); ;
+            });
+        }
+    }
+
+    private void CheckBoundsAndCast(System.Action<Vector3> onRaycast)
+    {
+        Vector3 mousePoint = GetMouseInWorld();
+        if (IsInBounds(mousePoint, gridBounds))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(mousePoint, Vector2.zero);
+
+            if (hit.collider != null && hit.transform.GetComponent<Building>() == null)
+            {
+                onRaycast(mousePoint);
             }
         }
+    }
+
+    private void PlaceBuildingIfSelected(Vector3 position)
+    {
+        Building selectedBuilding = GameManager.Instance.selectedBuilding;
+        if (selectedBuilding != null)
+        {
+            Builder.Instance.PlaceBuilding(selectedBuilding.asset, position);
+            GameManager.Instance.selectedBuilding = null;
+            UIManager.Instance.HideHoverBuilding();
+        }
+    }
+
+    private Vector3 GetMouseInWorld()
+    {
+        Vector3 pos = Input.mousePosition;
+        return Camera.main.ScreenToWorldPoint(pos);
     }
 
     private bool IsInBounds(Vector3 position, Bounds bounds)

@@ -10,9 +10,13 @@ public class UIManager : MonoBehaviour
     public Popup popup;
     public GameObject startUI;
     public GameObject endGameUI;
+    public GameObject hoverBuildingPrefab;
+    public bool isInMenu;
 
     private static UIManager _instance;
     public static UIManager Instance { get { return _instance; } }
+
+    private HoverBuilding _hoverBuildingInstance;
 
     private void Awake()
     {
@@ -46,6 +50,17 @@ public class UIManager : MonoBehaviour
         popup.SetText(text);
         popup.SetAction(confirmAction);
         popup.Open();
+    }
+
+    public void ShowHoverBuilding(Vector3 position, Sprite preview)
+    {
+        _hoverBuildingInstance = Instantiate(hoverBuildingPrefab, position, Quaternion.identity).GetComponent<HoverBuilding>();
+        _hoverBuildingInstance.SetData(preview);
+    }
+
+    public void HideHoverBuilding()
+    {
+        _hoverBuildingInstance.Remove();
     }
 
     public void ExitGame()

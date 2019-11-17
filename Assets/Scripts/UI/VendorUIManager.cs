@@ -30,7 +30,8 @@ public class VendorUIManager : MonoBehaviour
         
         for (int i = 0; i < _buildings.Count; i++)
         {
-            BuildingAsset baseBuildingAsset = _buildings[i].asset;
+            Building currentBuilding = _buildings[i];
+            BuildingAsset baseBuildingAsset = currentBuilding.asset;
             Level baseBuidling = baseBuildingAsset.levels[0];
 
             if ((this.transform == null) || (vendorItemPrefab == null))
@@ -48,27 +49,34 @@ public class VendorUIManager : MonoBehaviour
             }
 
             vendorItem.SetVendorItemData(baseBuidling.levelSprite, baseBuildingAsset.buildingName, baseBuidling.levelCost);
-            vendorItem.btnBuy.onClick.AddListener(() => BuyBuilding(baseBuildingAsset));
+            vendorItem.btnBuy.onClick.AddListener(() => BuyBuilding(currentBuilding, baseBuidling));
         }
     }
 
-    private void BuyBuilding(BuildingAsset building)
+    private void BuyBuilding(Building building, Level level)
     {
-        Debug.Log(building.buildingName);
+        if(GameManager.Instance.crystalAmount >= level.levelCost)
+        {
+            GameManager.Instance.selectedBuilding = building;
+            UIManager.Instance.ShowHoverBuilding(gameObject.transform.position, level.levelSprite);
+            Close(.2f);
+        }
     }
 
-    public void Close()
+    public void Close(float closeSpeed)
     {
-        vendorGroup.FadeOutCallback(this, .5f, (done) =>
+        vendorGroup.FadeOutCallback(this, closeSpeed, (done) =>
         {
             vendorGroup.interactable = false;
             vendorGroup.blocksRaycasts = false;
             vendorGroup.alpha = 0;
+            UIManager.Instance.isInMenu = false;
         });
     }
 
     public void Open()
     {
+        UIManager.Instance.isInMenu = true;
         vendorGroup.interactable = true;
         vendorGroup.blocksRaycasts = true;
         vendorGroup.FadeIn(this, .2f);

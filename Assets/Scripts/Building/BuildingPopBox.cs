@@ -8,7 +8,7 @@ public class BuildingPopBox : MonoBehaviour
 
     public bool isOpen = false;
 
-    private void Start()
+    private void Awake()
     {
         _buildingPopbox = gameObject.GetComponent<CanvasGroup>();
         _buildingPopboxCanvas = gameObject.GetComponent<Canvas>();
@@ -18,6 +18,7 @@ public class BuildingPopBox : MonoBehaviour
 
     public void Show()
     {
+        UIManager.Instance.isInMenu = true;
         gameObject.SetActive(true);
         _buildingPopbox.FadeIn(this, .2f);
         isOpen = true;
@@ -29,6 +30,7 @@ public class BuildingPopBox : MonoBehaviour
         {
             gameObject.SetActive(false);
             isOpen = false;
+            UIManager.Instance.isInMenu = false;
         });
     }
 }
