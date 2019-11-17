@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public TMP_Text crystalText;
     public Popup popup;
     public GameObject gameOverlayUI;
+    public GameObject introUI;
     public GameObject startUI;
     public GameObject endGameUI;
     public GameObject hoverBuildingPrefab;
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
         ToggleStartUI(true);
         ToggleGameOverlayUI(false);
         ToggleEndUI(false);
+        ToggleIntroUI(false);
     }
 
     // Update is called once per frame
@@ -39,27 +41,17 @@ public class UIManager : MonoBehaviour
         UpdateTimer();
     }
 
+    public static string FormatTime(float time)
+    {
+        string minutes = Mathf.Floor(time / 60).ToString("00");
+        string seconds = (time % 60).ToString("00");
+        return minutes + ":" + seconds;
+    }
+
     private void UpdateTimer()
     {
         float timeLeft = GameManager.Instance.timeLeft;
-        string minutes = Mathf.Floor(timeLeft / 60).ToString("00");
-        string seconds = (timeLeft % 60).ToString("00");
-        timerText.text = minutes + ":" + seconds;
-    }
-
-    public void ToggleGameOverlayUI(bool visible)
-    {
-        gameOverlayUI.SetActive(visible);
-    }
-
-    public void ToggleStartUI(bool visible)
-    {
-        startUI.SetActive(visible);
-    }
-
-    public void ToggleEndUI(bool visible)
-    {
-        endGameUI.SetActive(visible);
+        timerText.text = FormatTime(timeLeft);
     }
 
     public void ShowPopup(string text, bool isOkBox, UnityAction confirmAction)
@@ -84,5 +76,30 @@ public class UIManager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void ToggleIntroUI(bool visible)
+    {
+        introUI.SetActive(visible);
+    }
+
+    public void ToggleGameOverlayUI(bool visible)
+    {
+        gameOverlayUI.SetActive(visible);
+    }
+
+    public void ToggleStartUI(bool visible)
+    {
+        startUI.SetActive(visible);
+    }
+
+    public void ToggleEndUI(bool visible)
+    {
+        endGameUI.SetActive(visible);
+
+        if(visible)
+        {
+            endGameUI.GetComponent<EndGameUI>().SetData();
+        }
     }
 }

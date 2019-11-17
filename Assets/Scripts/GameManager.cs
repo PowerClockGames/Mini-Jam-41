@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public bool canBuildHere = false;
     public bool isHouseOnFire = false;
 
+    private string _highscoreKey = "Highscore";
+
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
@@ -21,6 +23,38 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
         gameRoundTime = timeLeft;
+    }
+
+    private void Update()
+    {
+        if (gameIsPlaying)
+        {
+            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0f)
+            {
+                if (!gameHasEnded)
+                {
+                    EndGame();
+                }
+            }
+        }
+    }
+
+    public void SetHighScore(int score)
+    {
+        PlayerPrefs.SetInt(_highscoreKey, score);
+    }
+
+    public int GetHighScore()
+    {
+        if (PlayerPrefs.HasKey(_highscoreKey))
+        {
+            return PlayerPrefs.GetInt(_highscoreKey);
+        } else
+        {
+            return 0;
+        }
+        
     }
 
     public void IncreaseCrystals(int amount)
@@ -35,9 +69,15 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        timeLeft = gameRoundTime;
-        gameIsPlaying = true;
         UIManager.Instance.ToggleStartUI(false);
+        UIManager.Instance.ToggleIntroUI(true);
+    }
+
+    public void StartTimer()
+    {
+        timeLeft = gameRoundTime;
+        gameHasEnded = false;
+        gameIsPlaying = true;
     }
 
     public void AddBuilding(GameObject building)
@@ -48,26 +88,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if(gameIsPlaying)
-        {
-            timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0f)
-            {
-                timeLeft = 0f;
-                if (!gameHasEnded)
-                {
-                    EndGame();
-                }
-            }
-        }
-    }
-
     private void EndGame()
     {
         gameHasEnded = true;
+
+        if(GetHighScore() < crystalAmount)
+        {
+            SetHighScore(crystalAmount);
+        }
+
+        UIManager.Instance.ToggleGameOverlayUI(false);
         UIManager.Instance.ToggleEndUI(true);
+    }
+
+    public void ResetGame()
+    {
+        timeLeft = 0f;
+        crystalAmount = 0;
     }
 
 }

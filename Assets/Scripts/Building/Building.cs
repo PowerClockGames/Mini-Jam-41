@@ -24,6 +24,7 @@ public class Building : MonoBehaviour
     private GameObject _fireParticlePrefab;
     private GameObject _fireParticles;
     private HealthBar _buildingBar;
+    private AudioSource _fireSound;
 
     private Vector3 _crystalTarget;
     private Vector3 _crystalPosition;
@@ -73,6 +74,7 @@ public class Building : MonoBehaviour
     {
         if(GameManager.Instance.selectedBuilding == null)
         {
+            SoundManager.Instance.PlaySound(asset.buildingSelectedSFX, transform.position);
             Debug.Log("clicked on building");
             switch (buildingState)
             {
@@ -96,17 +98,20 @@ public class Building : MonoBehaviour
             {
                 Instantiate(_ExplosionParticlePrefab, gameObject.transform.position, Quaternion.identity);
             }
-
+            CameraShake.Shake(0.3f, 0.4f);
+            GameManager.Instance.isHouseOnFire = false;
+            SoundManager.Instance.PlaySound(asset.buildingDestroyedSFX, transform.position);
+            SoundManager.Instance.StopLoopingSound(_fireSound);
             Destroy(gameObject);
             Destroy(_fireParticles);
         }
         else
         {
-
             if (_ExtinguishParticlePrefab != null)
             {
                 Instantiate(_ExtinguishParticlePrefab, gameObject.transform.position, Quaternion.identity);
             }
+            SoundManager.Instance.PlaySound(asset.buildingExtinguishSFX, transform.position);     
             CameraShake.Shake(0.25f, 0.3f);
             _clickCount++;
         }
@@ -122,14 +127,10 @@ public class Building : MonoBehaviour
 
     public void IncreaseBuildingLevel()
     {
-        Debug.Log("Upgradeee =>" + _currentLevel);
-        if(_currentLevel < asset.levels.Length)
+        Level upgradeAsset = asset.levels[_currentLevel + 1];
+        if (upgradeAsset != null)
         {
-            Level upgradeAsset = asset.levels[_currentLevel + 1];
-            if (upgradeAsset != null)
-            {
-                promptAndUpgrade(upgradeAsset);
-            }
+            promptAndUpgrade(upgradeAsset);
         }
     }
 
@@ -137,11 +138,13 @@ public class Building : MonoBehaviour
     {
         if (GameManager.Instance.crystalAmount >= levelAsset.levelCost)
         {
-            UIManager.Instance.ShowPopup(string.Format("Do you really want to upgrade {0} for {1}?", asset.buildingName, levelAsset.levelCost), false, () =>
+            Debug.Log("Upgraddeee");
+            UIManager.Instance.ShowPopup(string.Format("Do you really want to upgrade {0} for {1} Magic?", asset.buildingName, levelAsset.levelCost), false, () =>
             {
                 buildingPopBox.Hide();
                 _currentLevelAsset = levelAsset;
                 GameManager.Instance.DecreaseCrystals(_currentLevelAsset.levelCost);
+                SoundManager.Instance.PlaySound(asset.buildingUpgradedSFX, transform.position);
                 StartConstruction(_currentLevelAsset);
                 _currentLevel++;
             });
@@ -149,7 +152,7 @@ public class Building : MonoBehaviour
         }
         else
         {
-            UIManager.Instance.ShowPopup("You dont have enough magic to buy this.", true, () => { });
+            UIManager.Instance.ShowPopup("You dont have enough Magic to buy this.", true, () => { });
         }
     }
 
@@ -165,10 +168,7 @@ public class Building : MonoBehaviour
         _buildingBar = HealthBar.Create(gameObject.transform.position + Vector3.up, new Vector3(0.2f, 0.02f), Color.blue, Color.gray);
         StartCoroutine(Construction(levelAsset, () =>
         {
-            if(asset.constructionCompletedSFX != null)
-            {
-                // Play SFX
-            }
+             SoundManager.Instance.PlaySound(asset.buildingConstructedSFX, transform.position);
             _isGenerating = true;
             StartCoroutine(GenerateCrystals(levelAsset.crystalsPerMinute));
 
@@ -209,6 +209,7 @@ public class Building : MonoBehaviour
             LeanTween.move(crystalIcon, _crystalTarget, _crystalMoveTime).setEaseInCubic();
             LeanTween.delayedCall(crystalIcon, _crystalMoveTime + 0.1f, () => {
                 GameManager.Instance.IncreaseCrystals(cpm);
+                SoundManager.Instance.PlaySound(asset.magicGeneratedSFX, transform.position);
                 crystalIcon.SetActive(false);
             });
             yield return new WaitForSeconds(5);
@@ -221,6 +222,7 @@ public class Building : MonoBehaviour
         _isGenerating = false;
         buildingState = BuildingState.Damaged;
         GameManager.Instance.isHouseOnFire = true;
+        _fireSound = SoundManager.Instance.PlaySound(asset.buildingDamagedSFX, transform.position, true);
 
         if (_fireParticlePrefab != null)
         {

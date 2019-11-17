@@ -20,6 +20,7 @@ public class Builder : MonoBehaviour
         position = new Vector3(position.x, position.y, 0);
         GameObject newBuilding = Instantiate(baseBuidlingPrefab, position, Quaternion.identity);
         Building buildingComp = newBuilding.GetComponent<Building>();
+        SoundManager.Instance.PlaySound(buildingComp.asset.buildingPlacedSFX, transform.position);
         buildingComp.StartConstruction(buildingComp.asset.levels[0]);
     }
 }

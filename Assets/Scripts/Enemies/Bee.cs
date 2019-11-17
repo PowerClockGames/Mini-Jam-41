@@ -7,17 +7,21 @@ public class Bee : MonoBehaviour
 {
 	public float flySpeed = 5f;
 	public Vector3 flyOffTo;
+    public Animator beeAnimator;
 
-	public bool hasLanded = false;
+    public bool hasLanded = false;
 	public bool hasEaten = false;
 
 	private Building _target;
 	private float _countdown = 4f;
+    private AudioSource _flyingAudioSource;
 
-	public void SetTarget (Building t)
+    public void SetTarget (Building t, AudioSource sfx)
 	{
 		_target = t;
-	}
+        _flyingAudioSource = sfx;
+
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -36,9 +40,11 @@ public class Bee : MonoBehaviour
 			{
 				GetComponent<CircleCollider2D>().enabled = true;
                 _countdown -= Time.deltaTime;
+                beeAnimator.SetBool("isAttacking", true);
 				if (_countdown <= 0f)
                 {
                     _target.SetDamaged();
+                    beeAnimator.SetBool("isAttacking", false);
                     _target = null;
 				}
 			}
@@ -49,7 +55,8 @@ public class Bee : MonoBehaviour
 
 			if (Vector2.Distance(transform.position, flyOffTo) <= .1f)
 			{
-				Destroy(gameObject);
+                SoundManager.Instance.StopLoopingSound(_flyingAudioSource);
+                Destroy(gameObject);
 			}
 		}
 	}

@@ -13,6 +13,17 @@ MonoBehaviour:
   m_Name: House
   m_EditorClassIdentifier: 
   buildingName: House
+  buildingPlacedSFX: {fileID: 8300000, guid: ff6ad48b44fb22848881bab03a1041c4, type: 3}
+  buildingConstructedSFX: {fileID: 8300000, guid: d1fd9d4227937964eb263ec316e0a16b,
+    type: 3}
+  buildingSelectedSFX: {fileID: 8300000, guid: 7b7f07bbb9198b44cbc8115d755c7de3, type: 3}
+  magicGeneratedSFX: {fileID: 8300000, guid: 9d78fcd323233824cbc0df72b4483bc1, type: 3}
+  buildingUpgradedSFX: {fileID: 8300000, guid: d1fd9d4227937964eb263ec316e0a16b, type: 3}
+  buildingDamagedSFX: {fileID: 8300000, guid: 9dbe181925566d44789933b1fd1e76e1, type: 3}
+  buildingExtinguishSFX: {fileID: 8300000, guid: 4751052bb1f93294cafe5d5b4cae6326,
+    type: 3}
+  buildingDestroyedSFX: {fileID: 8300000, guid: 2c84950ff12858a4f902331f42fe8ed7,
+    type: 3}
   constructionImage: {fileID: 21300000, guid: 2d4f8d8db8ade124f802f635b99db59d, type: 3}
   constructionCompletedSFX: {fileID: 0}
   levels:

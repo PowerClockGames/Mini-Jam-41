@@ -8,6 +8,8 @@ public class VendorUIManager : MonoBehaviour
     private CanvasGroup vendorGroup;
     public VendorItem vendorItemPrefab;
     public RectTransform scrollList;
+    public AudioClip vendorOpenSFX;
+    public AudioClip purchaseSFX;
 
     private List<Building> _buildings;
 
@@ -57,6 +59,7 @@ public class VendorUIManager : MonoBehaviour
     {
         if(GameManager.Instance.crystalAmount >= level.levelCost)
         {
+            SoundManager.Instance.PlaySound(purchaseSFX, transform.position);
             GameManager.Instance.selectedBuilding = building;
             UIManager.Instance.ShowHoverBuilding(gameObject.transform.position, level.levelSprite);
             Close(.2f);
@@ -80,5 +83,6 @@ public class VendorUIManager : MonoBehaviour
         vendorGroup.interactable = true;
         vendorGroup.blocksRaycasts = true;
         vendorGroup.FadeIn(this, .2f);
+        SoundManager.Instance.PlaySound(vendorOpenSFX, transform.position);
     }
 }

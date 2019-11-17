@@ -18,9 +18,18 @@ public class BuildingAsset : ScriptableObject
     [Header("General")]
     public string buildingName;
 
+    [Header("Audio")]
+    public AudioClip buildingPlacedSFX;
+    public AudioClip buildingConstructedSFX;
+    public AudioClip buildingSelectedSFX;
+    public AudioClip magicGeneratedSFX;
+    public AudioClip buildingUpgradedSFX;
+    public AudioClip buildingDamagedSFX;
+    public AudioClip buildingExtinguishSFX;
+    public AudioClip buildingDestroyedSFX;
+
     [Header("Construction")]
     public Sprite constructionImage;
-    public AudioClip constructionCompletedSFX;
 
     [Header("Levels")]
     public Level[] levels;

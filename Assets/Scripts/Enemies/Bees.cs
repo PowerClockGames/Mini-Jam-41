@@ -9,12 +9,15 @@ public class Bees : MonoBehaviour
     public float maxWaitTime = 60f;
 
     public GameObject beePrefab;
+    public AudioClip flyingSFX;
 
     public Transform spawnPoint01;
     public Transform spawnPoint02;
     public Transform spawnPoint03;
 
     public int spawnPointIndex = 0;
+
+    private AudioSource _flyingAudioSource;
 
     void Start()
     {
@@ -56,9 +59,10 @@ public class Bees : MonoBehaviour
                 spawnPoint = spawnPoint03.position;
                 spawnPointIndex = 0;
             }
+            _flyingAudioSource = SoundManager.Instance.PlaySound(flyingSFX, transform.position, true);
             GameObject go = Instantiate(beePrefab, spawnPoint, Quaternion.identity);
             Bee bee = go.GetComponent<Bee>();
-            bee.SetTarget(buildingTile);
+            bee.SetTarget(buildingTile, _flyingAudioSource);
 
             buildingTile.SetUnderAttack();
         }
