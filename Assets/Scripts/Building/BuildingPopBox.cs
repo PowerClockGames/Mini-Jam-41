@@ -5,6 +5,8 @@ using UnityEngine.Events;
 public class BuildingPopBox : MonoBehaviour
 {
     public TMP_Text levelText;
+    public GameObject _buildingUpgradeButton;
+
     private CanvasGroup _buildingPopbox;
     private Canvas _buildingPopboxCanvas;
 
@@ -16,12 +18,19 @@ public class BuildingPopBox : MonoBehaviour
         _buildingPopboxCanvas = gameObject.GetComponent<Canvas>();
         _buildingPopboxCanvas.worldCamera = Camera.main;
         _buildingPopbox.alpha = 0;
+        ToggleUpgradeButton(true);
     }
 
-    public void Show(string level)
+    public void ToggleUpgradeButton(bool visible)
+    {
+        _buildingUpgradeButton.SetActive(visible);
+    }
+
+    public void Show(string level, bool isMaxLevel)
     {
         UIManager.Instance.isInMenu = true;
         levelText.text = level;
+        ToggleUpgradeButton(!isMaxLevel);
         _buildingPopbox.FadeIn(this, .2f);
         SetBlocking(true);
         isOpen = true;

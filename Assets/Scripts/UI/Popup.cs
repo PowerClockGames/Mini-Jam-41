@@ -57,8 +57,8 @@ public class Popup : MonoBehaviour
     {
         SoundManager.Instance.PlaySound(closeSFX, transform.position);
         canvasGroup.alpha = 0;
-        LeanTween.scale(gameObject, new Vector3(0, 0, 0), .4f).setEaseInCubic();
-        LeanTween.delayedCall(.4f, () => {
+        LeanTween.scale(gameObject, new Vector3(0, 0, 0), .4f).setEaseOutCubic();
+        LeanTween.delayedCall(.5f, () => {
             UIManager.Instance.isInMenu = false;
             Destroy(gameObject);
         });
@@ -69,6 +69,6 @@ public class Popup : MonoBehaviour
         UIManager.Instance.isInMenu = true;
         SoundManager.Instance.PlaySound(openSFX, transform.position);
         canvasGroup.alpha = 1;
-        LeanTween.scale(gameObject, new Vector3(1, 1, 1), .4f).setEaseInCubic();
+        LeanTween.scale(gameObject, new Vector3(1, 1, 1), .4f).setEaseOutCubic();
     }
 }

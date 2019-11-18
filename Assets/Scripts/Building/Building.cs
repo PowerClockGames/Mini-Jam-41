@@ -14,7 +14,8 @@ public class Building : MonoBehaviour
     public BoxCollider2D buildingTileCollider;
 
     [Header("State")]
-    public BuildingState buildingState;
+    [SerializeField]
+    private BuildingState _buildingState;
     [SerializeField]
     private BuildingAsset _asset;
 
@@ -26,13 +27,13 @@ public class Building : MonoBehaviour
     private GameObject _fireParticles;
     private HealthBar _buildingBar;
     private AudioSource _fireSound;
+    private ClickToAct _clickActionHandler;
 
     private Vector3 _crystalTarget;
     private Vector3 _crystalPosition;
     private BoxCollider2D _buildingColliderDefault;
 
     private int _currentLevel = 0;
-    private int _clickCount = 0;
     private float _constructionTimeLeft;
     private float _crystalMoveTime = .8f;
     private bool _isGenerating = false;
@@ -40,6 +41,7 @@ public class Building : MonoBehaviour
     void Awake()
     {
         _buildingSprite = GetComponent<SpriteRenderer>();
+        _clickActionHandler = GetComponent<ClickToAct>();
         _crystalTarget = new Vector3(11, 6.5f);
         _crystalPosition = crystalIcon.transform.position;
         _fireParticlePrefab = Resources.Load<GameObject>("FireParticle");
@@ -49,7 +51,7 @@ public class Building : MonoBehaviour
 
     void Update()
     {
-        if(buildingState == BuildingState.Constructing)
+        if(IsConstructing())
         {
             Construct();
         }
@@ -57,28 +59,26 @@ public class Building : MonoBehaviour
         if(GameManager.Instance.selectedBuilding)
         {
             ToggleColliders(true);
-        } else
-        {
-            ToggleColliders(false);
         }
 
         if(GameManager.Instance.gameHasEnded)
         {
             _isGenerating = false;
         }
-
     }
 
     void OnMouseDown()
     {
-        if(GameManager.Instance.selectedBuilding == null && buildingState != BuildingState.UnderAttack)
+        if(GameManager.Instance.selectedBuilding == null && !IsUnderAttack())
         {
             SoundManager.Instance.PlaySound(_asset.buildingSelectedSFX, transform.position);
-            switch (buildingState)
+            switch (_buildingState)
             {
                 case BuildingState.Built:
-                    buildingPopBox.Show((_currentLevel + 1).ToString());
-
+                    string levelString = (_currentLevel + 1).ToString();
+                    bool isMaxLevel = _currentLevel == _asset.levels.Length - 1;
+                    buildingPopBox.Show(levelString, isMaxLevel);
+                    ToggleColliders(false);
                     break;
                 case BuildingState.Damaged:
                     ExtinguishFire();
@@ -92,6 +92,7 @@ public class Building : MonoBehaviour
         if (buildingPopBox.isOpen)
         {
             buildingPopBox.Hide();
+            ToggleColliders(true);
         }
     }
 
@@ -109,49 +110,49 @@ public class Building : MonoBehaviour
 
     private void ExtinguishFire()
     {
-        if (_clickCount == 4)
+        _clickActionHandler.SetMultiClickAction(4, BlowUpBuilding, ShowClickBurst);
+    }
+
+    private void ShowClickBurst()
+    {
+        if (_ExtinguishParticlePrefab != null)
         {
-            _clickCount = 0;
-
-            if(_ExplosionParticlePrefab != null)
-            {
-                Instantiate(_ExplosionParticlePrefab, gameObject.transform.position, Quaternion.identity);
-            }
-
-            CameraShake.Shake(0.3f, 0.4f);
-            GameManager.Instance.isHouseOnFire = false;
-            GameManager.Instance.RemoveBuilding(gameObject);
-            SoundManager.Instance.PlaySound(_asset.buildingDestroyedSFX, transform.position);
-            SoundManager.Instance.StopLoopingSound(_fireSound);
-            Destroy(gameObject);
-            Destroy(_fireParticles);
+            Instantiate(_ExtinguishParticlePrefab, gameObject.transform.position, Quaternion.identity);
         }
-        else
+
+        SoundManager.Instance.PlaySound(_asset.buildingExtinguishSFX, transform.position);
+        CameraShake.Shake(0.25f, 0.3f);
+    }
+
+    private void BlowUpBuilding()
+    {
+        if (_ExplosionParticlePrefab != null)
         {
-            if (_ExtinguishParticlePrefab != null)
-            {
-                Instantiate(_ExtinguishParticlePrefab, gameObject.transform.position, Quaternion.identity);
-            }
-
-            SoundManager.Instance.PlaySound(_asset.buildingExtinguishSFX, transform.position);     
-            CameraShake.Shake(0.25f, 0.3f);
-            _clickCount++;
+            Instantiate(_ExplosionParticlePrefab, gameObject.transform.position, Quaternion.identity);
         }
+
+        CameraShake.Shake(0.3f, 0.4f);
+        GameManager.Instance.isHouseOnFire = false;
+        GameManager.Instance.RemoveBuilding(gameObject);
+        SoundManager.Instance.PlaySound(_asset.buildingDestroyedSFX, transform.position);
+        SoundManager.Instance.StopLoopingSound(_fireSound);
+        Destroy(gameObject);
+        Destroy(_fireParticles);
     }
 
     public void IncreaseBuildingLevel()
     {
-        if(_currentLevel + 1 < _asset.levels.Length)
+        if(_currentLevel < _asset.levels.Length - 1)
         {
             Level upgradeAsset = _asset.levels[_currentLevel + 1];
-            if (upgradeAsset != null && buildingState == BuildingState.Built)
+            if (upgradeAsset != null && IsBuilt())
             {
-                promptAndUpgrade(upgradeAsset);
+                PromptAndUpgrade(upgradeAsset);
             }
         }
     }
 
-    private void promptAndUpgrade(Level levelAsset)
+    private void PromptAndUpgrade(Level levelAsset)
     {
         UIManager.Instance.ShowPopup(string.Format("Do you really want to upgrade {0} for {1} Magic?", _asset.buildingName, levelAsset.levelCost), false, () =>
         {
@@ -197,23 +198,23 @@ public class Building : MonoBehaviour
         if (_constructionTimeLeft <= 0f)
         {
             _constructionTimeLeft = 0;
-            buildingState = BuildingState.Built;
+            SetBuilt();
         }
 
         _buildingBar.SetSize(1 - (_constructionTimeLeft / _currentLevelAsset.levelConstructionTime));
     }
 
-    IEnumerator Construction(Level levelAsset, System.Action done)
+    IEnumerator Construction(Level levelAsset, System.Action onBuildingConstructed)
     {
         _constructionTimeLeft = levelAsset.levelConstructionTime;
         _buildingSprite.sprite = _asset.constructionImage;
-        buildingState = BuildingState.Constructing;
+        SetConstructing();
 
         yield return new WaitForSeconds(levelAsset.levelConstructionTime);
 
         _buildingBar.Destroy();
         _buildingSprite.sprite = levelAsset.levelSprite;
-        done();
+        onBuildingConstructed();
     }
 
     IEnumerator GenerateCrystals(int cpm)
@@ -233,10 +234,10 @@ public class Building : MonoBehaviour
 
     }
 
-    public void SetDamaged()
+    public void DamageBuilding()
     {
         _isGenerating = false;
-        buildingState = BuildingState.Damaged;
+        SetDamaged();
         GameManager.Instance.isHouseOnFire = true;
         _fireSound = SoundManager.Instance.PlaySound(_asset.buildingDamagedSFX, transform.position, true);
 
@@ -248,19 +249,44 @@ public class Building : MonoBehaviour
 
     }
 
+    public void SetDamaged()
+    {
+        _buildingState = BuildingState.Damaged;
+    }
+
+    public void SetConstructing()
+    {
+        _buildingState = BuildingState.Constructing;
+    }
+
+    public void SetBuilt()
+    {
+        _buildingState = BuildingState.Built;
+    }
+
     public void SetUnderAttack()
     {
-        buildingState = BuildingState.UnderAttack;
+        _buildingState = BuildingState.UnderAttack;
     }
 
     public bool IsUnderAttack()
     {
-        return buildingState == BuildingState.UnderAttack;
+        return _buildingState == BuildingState.UnderAttack;
     }
 
     public bool IsDamaged()
     {
-        return buildingState == BuildingState.Damaged;
+        return _buildingState == BuildingState.Damaged;
+    }
+
+    public bool IsBuilt()
+    {
+        return _buildingState == BuildingState.Built;
+    }
+
+    public bool IsConstructing()
+    {
+        return _buildingState == BuildingState.Constructing;
     }
 }
 

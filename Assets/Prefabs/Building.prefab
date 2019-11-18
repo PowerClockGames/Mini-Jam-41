@@ -404,6 +404,7 @@ GameObject:
   - component: {fileID: 7005678380960911884}
   - component: {fileID: 1967188078946040807}
   - component: {fileID: 7005678380960911887}
+  - component: {fileID: 6377037398219251037}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -544,8 +545,20 @@ MonoBehaviour:
   buildingPopBox: {fileID: 2035047097726888355}
   buildingCollider: {fileID: 7005678380960911884}
   buildingTileCollider: {fileID: 1967188078946040807}
-  buildingState: 0
+  _buildingState: 0
   _asset: {fileID: 0}
+--- !u!114 &6377037398219251037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7005678380960911875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdffd123fe838a74f8462ef1654f5499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8554042752396413222
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,4 +819,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelText: {fileID: 2985748514633765709}
+  _buildingUpgradeButton: {fileID: 8554042752396413222}
   isOpen: 0

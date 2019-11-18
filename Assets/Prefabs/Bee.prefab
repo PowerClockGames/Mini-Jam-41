@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7793179952426543756}
   - component: {fileID: 7793179952426543757}
-  - component: {fileID: 7793179952426543746}
   - component: {fileID: 8928187891232198564}
+  - component: {fileID: 7793179952426543746}
+  - component: {fileID: 7177450021681016848}
   - component: {fileID: 3570218443652097956}
   m_Layer: 0
   m_Name: Bee
@@ -83,23 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7793179952426543746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7793179952426543747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080da11356b739541af16125fdb2b126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flySpeed: 5
-  flyOffTo: {x: 2.49, y: -8.74, z: 0}
-  beeAnimator: {fileID: 3570218443652097956}
-  hasLanded: 0
-  hasEaten: 0
 --- !u!58 &8928187891232198564
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -116,6 +100,37 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.69331086
+--- !u!114 &7793179952426543746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7793179952426543747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 080da11356b739541af16125fdb2b126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flySpeed: 5
+  flyOffToPositions:
+  - {x: 0.58, y: -9.6, z: 0}
+  - {x: 8.14, y: 8.14, z: 0}
+  - {x: -9.18, y: 9.1, z: 0}
+  beeAnimator: {fileID: 3570218443652097956}
+  beeHurtSFX: {fileID: 8300000, guid: 40fbdd12c9dd8254a95c2e6c255be95e, type: 3}
+--- !u!114 &7177450021681016848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7793179952426543747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdffd123fe838a74f8462ef1654f5499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &3570218443652097956
 Animator:
   serializedVersion: 3

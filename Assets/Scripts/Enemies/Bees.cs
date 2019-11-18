@@ -10,12 +10,7 @@ public class Bees : MonoBehaviour
 
     public GameObject beePrefab;
     public AudioClip flyingSFX;
-
-    public Transform spawnPoint01;
-    public Transform spawnPoint02;
-    public Transform spawnPoint03;
-
-    public int spawnPointIndex = 0;
+    public Transform[] spawnPositions;
 
     private AudioSource _flyingAudioSource;
 
@@ -44,21 +39,8 @@ public class Bees : MonoBehaviour
                 return;
 
             Vector3 spawnPoint = new Vector3();
-            if (spawnPointIndex == 0)
-            {
-                spawnPoint = spawnPoint01.position;
-                spawnPointIndex++;
-            }
-            else if (spawnPointIndex == 1)
-            {
-                spawnPoint = spawnPoint02.position;
-                spawnPointIndex++;
-            }
-            else if (spawnPointIndex == 2)
-            {
-                spawnPoint = spawnPoint03.position;
-                spawnPointIndex = 0;
-            }
+            spawnPoint = spawnPositions[Random.Range(0, spawnPositions.Length - 1)].position;
+
             _flyingAudioSource = SoundManager.Instance.PlaySound(flyingSFX, transform.position, true);
             GameObject go = Instantiate(beePrefab, spawnPoint, Quaternion.identity);
             Bee bee = go.GetComponent<Bee>();
@@ -75,7 +57,7 @@ public class Bees : MonoBehaviour
         Building[] Buildings = FindObjectsOfType<Building>();
         foreach (Building building in Buildings)
         {
-            if (building.buildingState == BuildingState.Built)
+            if (building.IsBuilt())
             {
                 BuildingSelection.Add(building);
             }

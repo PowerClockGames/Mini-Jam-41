@@ -45,7 +45,7 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    private void CheckBoundsAndCast(System.Action<Vector3> onRaycast)
+    private void CheckBoundsAndCast(System.Action<Vector3> onRaycastHit)
     {
         Vector3 mousePoint = GetMouseInWorld();
         if (IsInBounds(mousePoint, gridBounds))
@@ -54,7 +54,7 @@ public class PlayerInteraction : MonoBehaviour
 
             if (hit.collider != null && hit.transform.GetComponent<Building>() == null)
             {
-                onRaycast(mousePoint);
+                onRaycastHit(mousePoint);
             }
         }
     }

@@ -2,19 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Base code by Brackeys
+// Base code by Brackeys additional by me
 public class Bee : MonoBehaviour
 {
-	public float flySpeed = 5f;
-	public Vector3 flyOffTo;
+    [Header("General")]
+    public float flySpeed = 5f;
+    public Vector3[] flyOffToPositions;
     public Animator beeAnimator;
 
-    public bool hasLanded = false;
-	public bool hasEaten = false;
+    [Header("Audio")]
+    public AudioClip beeHurtSFX;
 
-	private Building _target;
-	private float _countdown = 4f;
+    private Building _target;
     private AudioSource _flyingAudioSource;
+    private ClickToAct _clickActionHandler;
+    private GameObject _HurtParticlePrefab;
+    private Vector3 _flyOffTo;
+    private float _cooldown = 4f;
+    private int _maxClicksToDestroy = 0;
+    private bool hasLanded = false;
+
+    private void Awake()
+    {
+        _clickActionHandler = GetComponent<ClickToAct>();
+        _HurtParticlePrefab = Resources.Load<GameObject>("ExtinguishParticle");
+        _maxClicksToDestroy = Random.Range(0, 4);
+        _flyOffTo = flyOffToPositions[Random.Range(0, flyOffToPositions.Length - 1)];
+    }
 
     public void SetTarget (Building t, AudioSource sfx)
 	{
@@ -23,16 +37,39 @@ public class Bee : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnMouseDown()
     {
-        Debug.Log(collision.gameObject.name);
+        if(!hasLanded)
+        {
+            _clickActionHandler.SetMultiClickAction(_maxClicksToDestroy, ChaseBeeAway, HurtBee);
+        }
+    }
+
+    private void ChaseBeeAway()
+    {
+        if(_target != null)
+        {
+            _target.SetBuilt();
+            _target = null;
+        }
+    }
+
+    private void HurtBee()
+    {
+        if (_HurtParticlePrefab != null)
+        {
+            Instantiate(_HurtParticlePrefab, transform.position, Quaternion.identity);
+        }
+
+        SoundManager.Instance.PlaySound(beeHurtSFX, transform.position);
+        CameraShake.Shake(0.25f, 0.3f);
     }
 
     private void Update()
 	{
 		if (_target != null)
 		{
-            if(_target.buildingState == BuildingState.Constructing)
+            if(_target.IsConstructing())
             {
                 _target = null;
             }
@@ -43,22 +80,24 @@ public class Bee : MonoBehaviour
 				transform.Translate(dir * flySpeed * Time.deltaTime);
 			} else
 			{
+                hasLanded = true;
 				GetComponent<CircleCollider2D>().enabled = true;
-                _countdown -= Time.deltaTime;
+                _cooldown -= Time.deltaTime;
                 beeAnimator.SetBool("IsAttacking", true);
-				if (_countdown <= 0f)
+				if (_cooldown <= 0f)
                 {
-                    _target.SetDamaged();
+                    hasLanded = false;
+                    _target.DamageBuilding();
                     beeAnimator.SetBool("IsAttacking", false);
                     _target = null;
-				}
+                }
 			}
 		} else
 		{
-			Vector2 dir = (flyOffTo - transform.position).normalized;
+			Vector2 dir = (_flyOffTo - transform.position).normalized;
 			transform.Translate(dir * flySpeed * Time.deltaTime);
 
-			if (Vector2.Distance(transform.position, flyOffTo) <= .1f)
+			if (Vector2.Distance(transform.position, _flyOffTo) <= .1f)
 			{
                 SoundManager.Instance.StopLoopingSound(_flyingAudioSource);
                 Destroy(gameObject);

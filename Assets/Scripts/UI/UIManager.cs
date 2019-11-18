@@ -6,9 +6,12 @@ using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("UI Text")]
     public TMP_Text highScoreText;
     public TMP_Text timerText;
     public TMP_Text crystalText;
+
+    [Header("UI Menus")]
     public GameObject popupPrefab;
     public GameObject gameOverlayUI;
     public GameObject introUI;

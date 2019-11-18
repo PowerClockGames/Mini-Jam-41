@@ -86,7 +86,7 @@ public class VendorUIManager : MonoBehaviour
         UIManager.Instance.isInMenu = true;
         vendorGroup.interactable = true;
         vendorGroup.blocksRaycasts = true;
-        vendorGroup.FadeIn(this, .2f);
+        vendorGroup.FadeInCallback(this, .2f, (done) => { vendorGroup.alpha = 1; });
         SoundManager.Instance.PlaySound(vendorOpenSFX, transform.position);
     }
 }
