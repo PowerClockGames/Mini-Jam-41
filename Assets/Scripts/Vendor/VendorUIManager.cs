@@ -64,6 +64,7 @@ public class VendorUIManager : MonoBehaviour
         {
             SoundManager.Instance.PlaySound(purchaseSFX, transform.position);
             GameManager.Instance.selectedBuilding = building;
+			GameManager.Instance.DecreaseCrystals(level.levelCost);
             UIManager.Instance.ShowHoverBuilding(gameObject.transform.position, level.levelSprite);
             Close(.2f);
         }
