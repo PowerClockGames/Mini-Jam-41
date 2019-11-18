@@ -5,7 +5,7 @@
 </a>
 
 
-### Made in ca. 48 hours during [Mini Jam 41](https://itch.io/jam/mini-jam-41-magic)
+### Made in ca. 48 hours during [Mini Jam #41](https://itch.io/jam/mini-jam-41-magic)
 
 Help Mr. Wu by producing more Magic.
 
