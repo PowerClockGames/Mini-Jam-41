@@ -32,6 +32,11 @@ public class Bee : MonoBehaviour
 	{
 		if (_target != null)
 		{
+            if(_target.buildingState == BuildingState.Constructing)
+            {
+                _target = null;
+            }
+
 			if (Vector2.Distance(transform.position, _target.transform.position) > .1f)
 			{
 				Vector2 dir = (_target.transform.position - transform.position).normalized;
@@ -40,11 +45,11 @@ public class Bee : MonoBehaviour
 			{
 				GetComponent<CircleCollider2D>().enabled = true;
                 _countdown -= Time.deltaTime;
-                beeAnimator.SetBool("isAttacking", true);
+                beeAnimator.SetBool("IsAttacking", true);
 				if (_countdown <= 0f)
                 {
                     _target.SetDamaged();
-                    beeAnimator.SetBool("isAttacking", false);
+                    beeAnimator.SetBool("IsAttacking", false);
                     _target = null;
 				}
 			}

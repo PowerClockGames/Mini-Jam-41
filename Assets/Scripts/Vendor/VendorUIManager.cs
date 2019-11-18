@@ -11,10 +11,14 @@ public class VendorUIManager : MonoBehaviour
     public AudioClip vendorOpenSFX;
     public AudioClip purchaseSFX;
 
-    private List<Building> _buildings;
+    private List<BuildingAsset> _buildings;
+
+    private static VendorUIManager _instance;
+    public static VendorUIManager Instance { get { return _instance; } }
 
     private void Awake()
     {
+        _instance = this;
         vendorGroup = gameObject.GetComponent<CanvasGroup>();
         vendorGroup.alpha = 0;
         vendorGroup.interactable = false;
@@ -32,8 +36,7 @@ public class VendorUIManager : MonoBehaviour
         
         for (int i = 0; i < _buildings.Count; i++)
         {
-            Building currentBuilding = _buildings[i];
-            BuildingAsset baseBuildingAsset = currentBuilding.asset;
+            BuildingAsset baseBuildingAsset = _buildings[i];
             Level baseBuidling = baseBuildingAsset.levels[0];
 
             if ((this.transform == null) || (vendorItemPrefab == null))
@@ -51,11 +54,11 @@ public class VendorUIManager : MonoBehaviour
             }
 
             vendorItem.SetVendorItemData(baseBuidling.levelSprite, baseBuildingAsset.buildingName, baseBuidling.levelCost);
-            vendorItem.btnBuy.onClick.AddListener(() => BuyBuilding(currentBuilding, baseBuidling));
+            vendorItem.btnBuy.onClick.AddListener(() => BuyBuilding(baseBuildingAsset, baseBuidling));
         }
     }
 
-    private void BuyBuilding(Building building, Level level)
+    private void BuyBuilding(BuildingAsset building, Level level)
     {
         if(GameManager.Instance.crystalAmount >= level.levelCost)
         {

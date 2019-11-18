@@ -25,17 +25,19 @@ MonoBehaviour:
   buildingDestroyedSFX: {fileID: 8300000, guid: 2c84950ff12858a4f902331f42fe8ed7,
     type: 3}
   constructionImage: {fileID: 21300000, guid: 2d4f8d8db8ade124f802f635b99db59d, type: 3}
-  constructionCompletedSFX: {fileID: 0}
   levels:
-  - levelCost: 0
+  - levelCost: 10
     crystalsPerMinute: 4
     levelConstructionTime: 5
-    levelSprite: {fileID: 21300000, guid: d7c940d780d215d469c4855fab8f4379, type: 3}
-  - levelCost: 10
-    crystalsPerMinute: 10
+    levelSprite: {fileID: -4098823163760067679, guid: 1afd303511ca0a549a691a120ebf465f,
+      type: 3}
+  - levelCost: 20
+    crystalsPerMinute: 8
     levelConstructionTime: 10
-    levelSprite: {fileID: 21300000, guid: 70141d51621e24facbca9196bbde84b4, type: 3}
+    levelSprite: {fileID: 6626126127285872089, guid: 1afd303511ca0a549a691a120ebf465f,
+      type: 3}
   - levelCost: 30
-    crystalsPerMinute: 20
-    levelConstructionTime: 20
-    levelSprite: {fileID: 21300000, guid: d9b66b6e9d6df154ba4b8392489a414d, type: 3}
+    crystalsPerMinute: 12
+    levelConstructionTime: 15
+    levelSprite: {fileID: 5318133407649108324, guid: 1afd303511ca0a549a691a120ebf465f,
+      type: 3}

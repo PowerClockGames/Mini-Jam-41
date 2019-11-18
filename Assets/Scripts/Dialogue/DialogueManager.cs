@@ -68,11 +68,18 @@ public class DialogueManager : MonoBehaviour {
 		}
 	}
 
+    IEnumerator WaitAndEndDialogue()
+    {
+        animator.SetBool("IsOpen", false);
+        SoundManager.Instance.PlaySound(dialogueEndSFX, transform.position);
+        yield return new WaitForSeconds(0.7f);
+        onDialogueFinished.Invoke();
+    }
+
 	void EndDialogue()
 	{
-		animator.SetBool("IsOpen", false);
-        SoundManager.Instance.PlaySound(dialogueEndSFX, transform.position);
-        onDialogueFinished.Invoke();
+        StartCoroutine(WaitAndEndDialogue());
+
     }
 
 }

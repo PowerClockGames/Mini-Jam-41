@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class BuildingPopBox : MonoBehaviour
 {
+    public TMP_Text levelText;
     private CanvasGroup _buildingPopbox;
     private Canvas _buildingPopboxCanvas;
 
@@ -16,21 +18,32 @@ public class BuildingPopBox : MonoBehaviour
         _buildingPopbox.alpha = 0;
     }
 
-    public void Show()
+    public void Show(string level)
     {
         UIManager.Instance.isInMenu = true;
-        gameObject.SetActive(true);
+        levelText.text = level;
         _buildingPopbox.FadeIn(this, .2f);
+        SetBlocking(true);
         isOpen = true;
     }
 
     public void Hide()
     {
-        _buildingPopbox.FadeOutCallback(this, .2f, (done) =>
+        if(_buildingPopbox != null)
         {
-            gameObject.SetActive(false);
-            isOpen = false;
-            UIManager.Instance.isInMenu = false;
-        });
+            _buildingPopbox.FadeOutCallback(this, .2f, (done) =>
+            {
+                SetBlocking(false);
+                isOpen = false;
+                _buildingPopbox.alpha = 0;
+                UIManager.Instance.isInMenu = false;
+            });
+        }
+    }
+
+    private void SetBlocking(bool interactable)
+    {
+        _buildingPopbox.interactable = interactable;
+        _buildingPopbox.blocksRaycasts = interactable;
     }
 }

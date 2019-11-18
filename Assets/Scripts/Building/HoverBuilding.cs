@@ -15,6 +15,8 @@ public class HoverBuilding : MonoBehaviour
 
     void Update()
     {
+        transform.position = new Vector3(transform.position.x - 0.2f, transform.position.y + 0.2f);
+
         if(GameManager.Instance.canBuildHere)
         {
             TurnGreen();
@@ -26,7 +28,7 @@ public class HoverBuilding : MonoBehaviour
 
     public void Remove()
     {
-        Cursor.visible = true;
+        //Cursor.visible = true;
         Destroy(gameObject);
     }
 

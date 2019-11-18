@@ -39,12 +39,23 @@ public class SoundManager : MonoBehaviour
         return audioSource;
     }
 
-    public virtual void StopLoopingSound(AudioSource source)
+    public void StopLoopingSound(AudioSource source)
     {
         if (source != null)
         {
             _loopingSounds.Remove(source);
             Destroy(source.gameObject);
+        }
+    }
+
+    public void StopAllLoopingSounds()
+    {
+        if (_loopingSounds.Count > 0)
+        {
+            _loopingSounds.ForEach((audio) =>
+            {
+                Destroy(audio.gameObject);
+            });
         }
     }
 }

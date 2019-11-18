@@ -61,10 +61,10 @@ public class PlayerInteraction : MonoBehaviour
 
     private void PlaceBuildingIfSelected(Vector3 position)
     {
-        Building selectedBuilding = GameManager.Instance.selectedBuilding;
+        BuildingAsset selectedBuilding = GameManager.Instance.selectedBuilding;
         if (selectedBuilding != null)
         {
-            Builder.Instance.PlaceBuilding(selectedBuilding.asset, position);
+            Builder.Instance.PlaceBuilding(selectedBuilding, position);
             GameManager.Instance.selectedBuilding = null;
             UIManager.Instance.HideHoverBuilding();
         }
@@ -78,9 +78,10 @@ public class PlayerInteraction : MonoBehaviour
 
     private bool IsInBounds(Vector3 position, Bounds bounds)
     {
-        return position.x > bounds.min.x  &&
-                position.x < bounds.max.x &&
-                position.x > bounds.min.y &&
-                position.y < bounds.max.y;
+        return position.x > bounds.min.x &&
+        position.x < bounds.max.x &&
+        position.y > bounds.min.y &&
+        position.y < bounds.max.y;
+
     }
 }

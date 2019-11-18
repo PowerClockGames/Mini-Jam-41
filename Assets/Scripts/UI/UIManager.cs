@@ -6,13 +6,15 @@ using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
+    public TMP_Text highScoreText;
     public TMP_Text timerText;
     public TMP_Text crystalText;
-    public Popup popup;
+    public GameObject popupPrefab;
     public GameObject gameOverlayUI;
     public GameObject introUI;
     public GameObject startUI;
     public GameObject endGameUI;
+    public GameObject creditsUI;
     public GameObject hoverBuildingPrefab;
     public bool isInMenu;
 
@@ -28,10 +30,12 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        highScoreText.text = "HighScore: " + GameManager.Instance.GetHighScore();
         ToggleStartUI(true);
         ToggleGameOverlayUI(false);
         ToggleEndUI(false);
         ToggleIntroUI(false);
+        ToggleCreditsUI(false);
     }
 
     // Update is called once per frame
@@ -48,6 +52,11 @@ public class UIManager : MonoBehaviour
         return minutes + ":" + seconds;
     }
 
+    public static bool CanShowUI()
+    {
+        return GameManager.Instance.selectedBuilding == null && !GameManager.Instance.isHouseOnFire && !GameManager.Instance.gameHasEnded;
+    }
+
     private void UpdateTimer()
     {
         float timeLeft = GameManager.Instance.timeLeft;
@@ -56,6 +65,9 @@ public class UIManager : MonoBehaviour
 
     public void ShowPopup(string text, bool isOkBox, UnityAction confirmAction)
     {
+        GameObject popupInstance = Instantiate(popupPrefab, transform.position, Quaternion.identity);
+        popupInstance.transform.SetParent(gameObject.transform, false);
+        Popup popup = popupInstance.GetComponent<Popup>();
         popup.SetSingleButton(isOkBox);
         popup.SetText(text);
         popup.SetAction(confirmAction);
@@ -83,9 +95,23 @@ public class UIManager : MonoBehaviour
         introUI.SetActive(visible);
     }
 
+    public void ToggleCreditsUI(bool visible)
+    {
+        creditsUI.SetActive(visible);
+    }
+
     public void ToggleGameOverlayUI(bool visible)
     {
         gameOverlayUI.SetActive(visible);
+
+        if (visible)
+        {
+            gameOverlayUI.GetComponent<RectTransform>().LeanMove(Vector3.zero, .4f).setEaseOutCubic();
+        }
+        else
+        {
+            gameOverlayUI.GetComponent<RectTransform>().LeanMove(new Vector3(0, 90), .4f).setEaseOutCubic();
+        }
     }
 
     public void ToggleStartUI(bool visible)

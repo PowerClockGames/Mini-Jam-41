@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public float timeLeft = 312f;
     public float gameRoundTime;
     public int crystalAmount = 0;
-    public Building selectedBuilding;
+    public BuildingAsset selectedBuilding;
     public List<GameObject> placedBuildings;
     public bool gameHasEnded = false;
     public bool gameIsPlaying = false;
@@ -88,6 +88,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RemoveBuilding(GameObject building)
+    {
+        if (!placedBuildings.Contains(building))
+        {
+            int index = placedBuildings.IndexOf(building);
+            placedBuildings.RemoveAt(index);
+        }
+    }
+
     private void EndGame()
     {
         gameHasEnded = true;
@@ -97,14 +106,73 @@ public class GameManager : MonoBehaviour
             SetHighScore(crystalAmount);
         }
 
+        selectedBuilding = null;
+		ClearHoverBuilding();
+        SoundManager.Instance.StopAllLoopingSounds();
         UIManager.Instance.ToggleGameOverlayUI(false);
         UIManager.Instance.ToggleEndUI(true);
+        VendorUIManager.Instance.Close(0f);
     }
 
     public void ResetGame()
     {
         timeLeft = 0f;
         crystalAmount = 0;
+        CleanBoard();
+    }
+	
+	private void ClearHoverBuilding() {
+		HoverBuilding[] hoverBuidlings = FindObjectsOfType<HoverBuilding>();
+		foreach (HoverBuilding hover in hoverBuidlings)
+        {
+            Destroy(hover.gameObject);
+        }
+	}
+
+    private void ClearHealthBar()
+    {
+        HealthBar[] bars = FindObjectsOfType<HealthBar>();
+        foreach (HealthBar bar in bars)
+        {
+            Destroy(bar.gameObject);
+        }
+    }
+
+    private void ClearParticles()
+    {
+        GameObject[] fireParticles = GameObject.FindGameObjectsWithTag("Fire");
+        foreach (GameObject go in fireParticles)
+        {
+            Destroy(go);
+        }
+    }
+
+    private void ClearBees()
+    {
+        Bee[] spawnedBees = FindObjectsOfType<Bee>();
+        foreach (Bee bee in spawnedBees)
+        {
+            Destroy(bee.gameObject);
+        }
+    }
+
+    private void ClearBuildings()
+    {
+
+        Building[] buildings = FindObjectsOfType<Building>();
+        foreach (Building building in buildings)
+        {
+            Destroy(building.gameObject);
+        }
+    }
+
+    private void CleanBoard()
+    {
+        placedBuildings.Clear();
+        ClearHealthBar();
+        ClearBees();
+        ClearBuildings();
+        ClearParticles();
     }
 
 }

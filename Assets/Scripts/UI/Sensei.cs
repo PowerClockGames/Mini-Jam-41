@@ -5,9 +5,7 @@ using UnityEngine;
 public class Sensei : MonoBehaviour
 {
     [Header("UI")]
-    public CanvasGroup popupUI;
     public CanvasGroup warningUI;
-    public GameObject tutorialUI;
 
     [Header("Audio")]
     public AudioClip senseiHoverSFX;
@@ -25,22 +23,9 @@ public class Sensei : MonoBehaviour
         }
 
     }
-    void OnMouseDown()
-    {
-        if (GameManager.Instance.selectedBuilding == null && !GameManager.Instance.isHouseOnFire)
-        {
-            tutorialUI.SetActive(true);
-        }
-    }
 
     private void OnMouseEnter()
     {
-        popupUI.FadeIn(this, .2f);
         SoundManager.Instance.PlaySound(senseiHoverSFX, transform.position);
-    }
-
-    private void OnMouseExit()
-    {
-        popupUI.FadeOut(this, .2f);
     }
 }

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5d30d98f4215e4cbab95bff7fa804a, type: 3}
+  m_Name: Fountain
+  m_EditorClassIdentifier: 
+  buildingName: Fountain
+  buildingPlacedSFX: {fileID: 8300000, guid: ff6ad48b44fb22848881bab03a1041c4, type: 3}
+  buildingConstructedSFX: {fileID: 8300000, guid: d1fd9d4227937964eb263ec316e0a16b,
+    type: 3}
+  buildingSelectedSFX: {fileID: 8300000, guid: 7b7f07bbb9198b44cbc8115d755c7de3, type: 3}
+  magicGeneratedSFX: {fileID: 8300000, guid: 9d78fcd323233824cbc0df72b4483bc1, type: 3}
+  buildingUpgradedSFX: {fileID: 8300000, guid: d1fd9d4227937964eb263ec316e0a16b, type: 3}
+  buildingDamagedSFX: {fileID: 8300000, guid: 9dbe181925566d44789933b1fd1e76e1, type: 3}
+  buildingExtinguishSFX: {fileID: 8300000, guid: 4751052bb1f93294cafe5d5b4cae6326,
+    type: 3}
+  buildingDestroyedSFX: {fileID: 8300000, guid: 2c84950ff12858a4f902331f42fe8ed7,
+    type: 3}
+  constructionImage: {fileID: 21300000, guid: 2d4f8d8db8ade124f802f635b99db59d, type: 3}
+  levels:
+  - levelCost: 100
+    crystalsPerMinute: 30
+    levelConstructionTime: 30
+    levelSprite: {fileID: 6537089701838389941, guid: 4bfcb9f6da604ff4fa1e10a92d953755,
+      type: 3}
+  - levelCost: 200
+    crystalsPerMinute: 40
+    levelConstructionTime: 40
+    levelSprite: {fileID: 4120153029931206042, guid: 4bfcb9f6da604ff4fa1e10a92d953755,
+      type: 3}

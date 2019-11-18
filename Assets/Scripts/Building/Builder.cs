@@ -5,7 +5,7 @@ using UnityEngine;
 public class Builder : MonoBehaviour
 {
     public GameObject baseBuidlingPrefab;
-    public Building[] buildings;
+    public BuildingAsset[] buildings;
 
     private static Builder _instance;
     public static Builder Instance { get { return _instance; } }
@@ -20,7 +20,8 @@ public class Builder : MonoBehaviour
         position = new Vector3(position.x, position.y, 0);
         GameObject newBuilding = Instantiate(baseBuidlingPrefab, position, Quaternion.identity);
         Building buildingComp = newBuilding.GetComponent<Building>();
-        SoundManager.Instance.PlaySound(buildingComp.asset.buildingPlacedSFX, transform.position);
-        buildingComp.StartConstruction(buildingComp.asset.levels[0]);
+        buildingComp.SetAsset(building);
+        SoundManager.Instance.PlaySound(building.buildingPlacedSFX, transform.position);
+        buildingComp.StartConstruction(building.levels[0]);
     }
 }
