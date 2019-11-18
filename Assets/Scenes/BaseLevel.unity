@@ -13727,11 +13727,11 @@ MonoBehaviour:
   magicCountText: {fileID: 1034909776}
   timeCountText: {fileID: 949401994}
   star1: {fileID: 234396801}
-  coinsToUnlock1: 50
+  coinsToUnlock1: 300
   star2: {fileID: 235007993}
-  coinsToUnlock2: 250
+  coinsToUnlock2: 600
   star3: {fileID: 1178217181}
-  coinsToUnlock3: 400
+  coinsToUnlock3: 1000
 --- !u!1 &1300016880
 GameObject:
   m_ObjectHideFlags: 0
