@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Base code by Brackeys additional by me
+[RequireComponent(typeof(CircleCollider2D))]
 public class Bee : MonoBehaviour
 {
     [Header("General")]
