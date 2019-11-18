@@ -27,7 +27,7 @@ public class Bee : MonoBehaviour
     {
         _clickActionHandler = GetComponent<ClickToAct>();
         _HurtParticlePrefab = Resources.Load<GameObject>("ExtinguishParticle");
-        _maxClicksToDestroy = Random.Range(0, 4);
+        _maxClicksToDestroy = Random.Range(2, 4);
         _flyOffTo = flyOffToPositions[Random.Range(0, flyOffToPositions.Length - 1)];
     }
 
@@ -70,21 +70,24 @@ public class Bee : MonoBehaviour
 	{
 		if (_target != null)
 		{
-            if(_target.IsConstructing())
+            if(_target.IsConstructing() || _target.IsDamaged())
             {
                 _target = null;
+                return;
             }
 
-			if (Vector2.Distance(transform.position, _target.transform.position) > .1f)
+			if (Vector2.Distance(transform.position, _target.transform.position) > .2f)
 			{
 				Vector2 dir = (_target.transform.position - transform.position).normalized;
 				transform.Translate(dir * flySpeed * Time.deltaTime);
 			} else
 			{
-                hasLanded = true;
-				GetComponent<CircleCollider2D>().enabled = true;
                 _cooldown -= Time.deltaTime;
+                hasLanded = true;
+                _target.SetUnderAttack();
+                GetComponent<CircleCollider2D>().enabled = true;
                 beeAnimator.SetBool("IsAttacking", true);
+
 				if (_cooldown <= 0f)
                 {
                     hasLanded = false;

@@ -96,6 +96,7 @@ public class UIManager : MonoBehaviour
     public void ToggleIntroUI(bool visible)
     {
         introUI.SetActive(visible);
+        GameManager.Instance.introIsPlaying = visible;
     }
 
     public void ToggleCreditsUI(bool visible)

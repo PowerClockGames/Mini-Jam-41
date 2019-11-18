@@ -45,8 +45,6 @@ public class Bees : MonoBehaviour
             GameObject go = Instantiate(beePrefab, spawnPoint, Quaternion.identity);
             Bee bee = go.GetComponent<Bee>();
             bee.SetTarget(buildingTile, _flyingAudioSource);
-
-            buildingTile.SetUnderAttack();
         }
     }
 

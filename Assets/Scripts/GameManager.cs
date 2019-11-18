@@ -7,10 +7,12 @@ public class GameManager : MonoBehaviour
     public float timeLeft = 312f;
     public float gameRoundTime;
     public int crystalAmount = 0;
+    public int crystalStartAmount = 10;
     public BuildingAsset selectedBuilding;
     public List<GameObject> placedBuildings;
     public bool gameHasEnded = false;
     public bool gameIsPlaying = false;
+    public bool introIsPlaying = false;
     public bool canBuildHere = false;
     public bool isHouseOnFire = false;
 
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
     {
         UIManager.Instance.ToggleStartUI(false);
         UIManager.Instance.ToggleIntroUI(true);
+        crystalAmount = crystalStartAmount;
     }
 
     public void StartTimer()
@@ -117,7 +120,7 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         timeLeft = 0f;
-        crystalAmount = 0;
+        crystalAmount = crystalStartAmount;
         CleanBoard();
     }
 	

@@ -10,6 +10,7 @@ public class VendorUIManager : MonoBehaviour
     public RectTransform scrollList;
     public AudioClip vendorOpenSFX;
     public AudioClip purchaseSFX;
+    public AudioClip cantPurchaseSFX;
 
     private List<BuildingAsset> _buildings;
 
@@ -67,6 +68,9 @@ public class VendorUIManager : MonoBehaviour
 			GameManager.Instance.DecreaseCrystals(level.levelCost);
             UIManager.Instance.ShowHoverBuilding(gameObject.transform.position, level.levelSprite);
             Close(.2f);
+        } else
+        {
+            SoundManager.Instance.PlaySound(cantPurchaseSFX, transform.position);    
         }
     }
 

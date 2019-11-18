@@ -10,7 +10,7 @@ public class Vendor : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(!GameManager.Instance.gameHasEnded && GameManager.Instance.selectedBuilding == null)
+        if(CanShowVendor())
         {
             vendorUI.Open();
         }
@@ -18,12 +18,22 @@ public class Vendor : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        popupUI.FadeIn(this, .2f);
-        SoundManager.Instance.PlaySound(vendorHoverSFX, transform.position);
+        if(CanShowVendor())
+        {
+            popupUI.FadeIn(this, .2f);
+            SoundManager.Instance.PlaySound(vendorHoverSFX, transform.position);
+        }
     }
 
     private void OnMouseExit()
     {
         popupUI.FadeOut(this, .2f);
+    }
+
+    private bool CanShowVendor()
+    {
+        return !GameManager.Instance.gameHasEnded &&
+            !GameManager.Instance.introIsPlaying &&
+            GameManager.Instance.selectedBuilding == null;
     }
 }

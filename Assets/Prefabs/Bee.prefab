@@ -115,7 +115,7 @@ MonoBehaviour:
   flySpeed: 5
   flyOffToPositions:
   - {x: 0.58, y: -9.6, z: 0}
-  - {x: 8.14, y: 8.14, z: 0}
+  - {x: 8, y: 9, z: 0}
   - {x: -9.18, y: 9.1, z: 0}
   beeAnimator: {fileID: 3570218443652097956}
   beeHurtSFX: {fileID: 8300000, guid: 40fbdd12c9dd8254a95c2e6c255be95e, type: 3}

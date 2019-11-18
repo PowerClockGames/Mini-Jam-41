@@ -4486,13 +4486,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b3a5b7806d17e4c886c47a846064a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLeft: 312
+  timeLeft: 10
   gameRoundTime: 0
   crystalAmount: 5
+  crystalStartAmount: 10
   selectedBuilding: {fileID: 0}
   placedBuildings: []
   gameHasEnded: 0
   gameIsPlaying: 0
+  introIsPlaying: 0
   canBuildHere: 0
   isHouseOnFire: 0
 --- !u!4 &316706640
@@ -8311,6 +8313,7 @@ MonoBehaviour:
   scrollList: {fileID: 1429001018}
   vendorOpenSFX: {fileID: 8300000, guid: 712e0743f0a12e54098bf85022ca7bf3, type: 3}
   purchaseSFX: {fileID: 8300000, guid: 058d1b2094535a0478cc13b4b82154c0, type: 3}
+  cantPurchaseSFX: {fileID: 8300000, guid: 475215b91aec5df459059e8f7587e273, type: 3}
 --- !u!1 &767991005
 GameObject:
   m_ObjectHideFlags: 0
@@ -13724,11 +13727,11 @@ MonoBehaviour:
   magicCountText: {fileID: 1034909776}
   timeCountText: {fileID: 949401994}
   star1: {fileID: 234396801}
-  coinsToUnlock1: 80
+  coinsToUnlock1: 50
   star2: {fileID: 235007993}
-  coinsToUnlock2: 350
+  coinsToUnlock2: 250
   star3: {fileID: 1178217181}
-  coinsToUnlock3: 600
+  coinsToUnlock3: 400
 --- !u!1 &1300016880
 GameObject:
   m_ObjectHideFlags: 0
@@ -28481,8 +28484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97f2fe8274599be43985acfe488cffa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWaitTime: 2
-  maxWaitTime: 4
+  minWaitTime: 1
+  maxWaitTime: 12
   beePrefab: {fileID: 7793179952426543747, guid: 3127da2586483ed49a25e2ef24483402,
     type: 3}
   flyingSFX: {fileID: 8300000, guid: 32e9f6c4a5479f44689465b7c36c60ed, type: 3}
