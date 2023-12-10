@@ -1,9 +1,10 @@
-![](https://i.ibb.co/09Z2yg0/Screenshot-9.png)
+![](./gameplay.png)
+
 ## MagicFactory
+
 <a href="https://tgrassl.itch.io/magicfactory">
   <img src="https://i.ibb.co/FgWw7vt/badge-color.png" width="200px">
 </a>
-
 
 ### Made in ca. 48 hours during [Mini Jam #41](https://itch.io/jam/mini-jam-41-magic)
 
